@@ -6,7 +6,7 @@ import (
 
 	"github.com/AllenDang/giu"
 	"github.com/disintegration/imaging"
-	"github.com/gucio321-studies/MMFProj5/go/pkg"
+	"github.com/gucio321-studies/MOFProj5/go/pkg"
 	"github.com/kpango/glg"
 )
 
