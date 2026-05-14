@@ -3,12 +3,20 @@ package pkg
 import (
 	"image"
 	"math"
+	"math/rand"
 	"sort"
+	"time"
 )
 
 const (
 	N = 31
 )
+
+// initialize math/rand
+func init() {
+	// seed with current time
+	rand.Seed(time.Now().UnixNano())
+}
 
 type sdelta struct {
 	s, delta float64
@@ -107,4 +115,13 @@ func (p *Poisson) OptimizeFallAt(i, j int) {
 	sMinus := p.SLocal(i, j, -p.fallD)
 	nablaS := (sPlus - sMinus) / (2 * p.fallD)
 	p.u[i][j] -= p.beta * nablaS
+}
+
+func (p *Poisson) OptimizeRandAt(i, j int, r float64) {
+	s0 := p.SLocal(i, j, 0)
+	randomDelta := 2*r*rand.Float64() - r
+	sRandom := p.SLocal(i, j, randomDelta)
+	if sRandom < s0 {
+		p.u[i][j] += randomDelta
+	}
 }

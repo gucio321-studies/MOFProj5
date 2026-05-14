@@ -9,7 +9,10 @@ require (
 	github.com/AllenDang/go-findfont v0.0.0-20200702051237-9f180485aeb8 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
 	github.com/faiface/mainthread v0.0.0-20171120011319-8b78f0a41ae3 // indirect
+	github.com/goccy/go-json v0.10.2 // indirect
 	github.com/gucio321/glm-go v0.0.0-20241029220517-e1b5a3e011c8 // indirect
+	github.com/kpango/fastime v1.1.9 // indirect
+	github.com/kpango/glg v1.6.15 // indirect
 	github.com/mazznoer/csscolorparser v0.1.8 // indirect
 	github.com/napsy/go-css v1.0.0 // indirect
 	github.com/pkg/browser v0.0.0-20240102092130-5ac0b6a4141c // indirect
