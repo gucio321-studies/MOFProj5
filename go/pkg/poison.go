@@ -1,6 +1,7 @@
 package pkg
 
 import (
+	"image"
 	"math"
 	"sort"
 )
@@ -27,6 +28,10 @@ func NewPoisson(d, x0, dx float64, optimizationDeltas [3]float64) *Poisson {
 		optimizationDeltas: optimizationDeltas,
 	}
 	return result
+}
+
+func (p *Poisson) GetUMap() image.Image {
+	return Float64ToGrayImage(p.u)
 }
 
 func (p *Poisson) U(i, j int) float64 {

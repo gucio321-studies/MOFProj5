@@ -1,7 +1,10 @@
 package main
 
 import (
+	"image"
+
 	"github.com/AllenDang/giu"
+	"github.com/disintegration/imaging"
 	"github.com/gucio321-studies/MMFProj5/go/pkg"
 )
 
@@ -11,11 +14,12 @@ const (
 	d  = 4
 )
 
-func loop(ss []float64) {
+func loop(ss []float64, uImg image.Image) {
 	giu.SingleWindow().Layout(
 		giu.Plot("Zależność wartości S od numeru iteracji").Plots(
 			giu.Line("S(it)", ss),
 		).XAxeFlags(giu.PlotAxisFlagsAutoFit).YAxeFlags(giu.PlotAxisFlagsAutoFit, 0, 0),
+		giu.ImageWithRgba(uImg),
 	)
 }
 
@@ -27,9 +31,12 @@ func main() {
 		ss[i] = p.Optimize()
 	}
 
+	uImg := p.GetUMap()
+	uImg = imaging.Resize(uImg, 512, 512, imaging.NearestNeighbor)
+
 	wnd := giu.NewMasterWindow("Poisson", 640, 480, 0)
 	wnd.SetStyle(giu.LightTheme())
 	wnd.Run(func() {
-		loop(ss)
+		loop(ss, uImg)
 	})
 }
