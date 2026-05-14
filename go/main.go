@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"image"
 
@@ -63,6 +64,9 @@ func loop(ss []float64, uImg image.Image, betas []float64, ssFall [][]float64, f
 }
 
 func main() {
+	var nogui bool
+	flag.BoolVar(&nogui, "nogui", false, "Run without GUI")
+	flag.Parse()
 	glg.Info("MOF5: Równanie Poissona: minimalizacja, optymalizacja gradientowa i MonteCarlo")
 
 	glg.Info("Running task 1")
@@ -118,6 +122,10 @@ func main() {
 	glg.Success("Task 3 complete!")
 
 	glg.Info("Running visualization with giu.")
+	if nogui {
+		glg.Info("GUI disabled by cmd flags, exiting.")
+		return
+	}
 	wnd := giu.NewMasterWindow("Poisson", 640, 480, 0)
 	wnd.SetStyle(giu.LightTheme())
 	wnd.Run(func() {
