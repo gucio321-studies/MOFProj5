@@ -18,14 +18,17 @@ type Poisson struct {
 	u                  [2*N + 1][2*N + 1]float64
 	d, x0, dx          float64
 	optimizationDeltas [3]float64
+	fallD, beta        float64
 }
 
-func NewPoisson(d, x0, dx float64, optimizationDeltas [3]float64) *Poisson {
+func NewPoisson(d, x0, dx float64, optimizationDeltas [3]float64, fallD, beta float64) *Poisson {
 	result := &Poisson{
 		x0:                 x0,
 		d:                  d,
 		dx:                 dx,
 		optimizationDeltas: optimizationDeltas,
+		fallD:              fallD,
+		beta:               beta,
 	}
 	return result
 }
@@ -63,10 +66,10 @@ func (p *Poisson) OptimizeAt(i, j int) {
 }
 
 // Optimize does one iteration (optimizeAt for each point). It returns total S value.
-func (p *Poisson) Optimize() float64 {
+func (p *Poisson) Optimize(optimizationFunc func(i, j int)) float64 {
 	for i := 1; i <= 2*N+1-2; i++ {
 		for j := 1; j <= 2*N+1-2; j++ {
-			p.OptimizeAt(i, j)
+			optimizationFunc(i, j)
 		}
 	}
 
@@ -97,4 +100,11 @@ func (p *Poisson) S() float64 {
 		}
 	}
 	return -result
+}
+
+func (p *Poisson) OptimizeFallAt(i, j int) {
+	sPlus := p.SLocal(i, j, p.fallD)
+	sMinus := p.SLocal(i, j, -p.fallD)
+	nablaS := (sPlus - sMinus) / (2 * p.fallD)
+	p.u[i][j] -= p.beta * nablaS
 }
