@@ -13,9 +13,9 @@ const (
 
 func loop(ss []float64) {
 	giu.SingleWindow().Layout(
-		giu.Plot("Ex1").Plots(
-			giu.Line("SS", ss),
-		),
+		giu.Plot("Zależność wartości S od numeru iteracji").Plots(
+			giu.Line("S(it)", ss),
+		).XAxeFlags(giu.PlotAxisFlagsAutoFit).YAxeFlags(giu.PlotAxisFlagsAutoFit, 0, 0),
 	)
 }
 
@@ -28,6 +28,7 @@ func main() {
 	}
 
 	wnd := giu.NewMasterWindow("Poisson", 640, 480, 0)
+	wnd.SetStyle(giu.LightTheme())
 	wnd.Run(func() {
 		loop(ss)
 	})
